@@ -162,7 +162,7 @@ COPY request-logging.xml /etc/puppetlabs/puppetserver/
 
 RUN apk update \
 && apk add --no-cache dumb-init alpine-sdk g++ make openssh-client openssl libssh2 ruby ruby-dev runuser coreutils gcompat \
-&& gem install --no-document gpgme openvox:8.21.1 syslog hocon:1.4.0 racc:1.8.1 r10k:${R10K_VERSION}  hiera-eyaml:4.3.0 hiera-eyaml-gpg openvoxserver-ca:3.0.0 \
+&& gem install --no-document openvox:8.21.1 syslog hocon:1.4.0 racc:1.8.1 r10k:${R10K_VERSION}  hiera-eyaml:4.3.0 hiera-eyaml-gpg ruby_gpg openvoxserver-ca:3.0.0 \
 && apk del --purge alpine-sdk \
 && addgroup -g 1001 puppet \
 && adduser -G puppet -u 1001 -h ${data_dir}/puppetserver -H -D -s /sbin/nologin puppet \
@@ -190,7 +190,7 @@ RUN apk update \
 && ln -s /usr/bin/r10k /opt/puppetlabs/puppet/bin/r10k \
 && ln -s /usr/bin/hiera-eyaml /opt/puppetlabs/puppet/bin/hiera-eyaml \
 # install puppet gem as library into jruby loadpath
-&& puppetserver gem install --no-document openvox
+&& puppetserver gem install --no-document openvox hiera-eyaml-gpg ruby_gpg
 
 # k8s uses livenessProbe, startupProbe, readinessProbe and ignores HEALTHCHECK
 HEALTHCHECK --interval=20s --timeout=15s --retries=12 --start-period=3m CMD ["/healthcheck.sh"]
