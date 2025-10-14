@@ -161,8 +161,8 @@ COPY puppetserver /etc/default/puppetserver
 COPY request-logging.xml /etc/puppetlabs/puppetserver/
 
 RUN apk update \
-&& apk add --no-cache dumb-init alpine-sdk openssh-client openssl libssh2 ruby ruby-dev runuser coreutils gcompat \
-&& gem install --no-document openvox:8.21.1 syslog hocon:1.4.0 racc:1.8.1 r10k:${R10K_VERSION} hiera-eyaml:4.3.0 openvoxserver-ca:3.0.0 \
+&& apk add --no-cache dumb-init alpine-sdk g++ make openssh-client openssl libssh2 ruby ruby-dev runuser coreutils gcompat \
+&& gem install --no-document gpgme openvox:8.21.1 syslog hocon:1.4.0 racc:1.8.1 r10k:${R10K_VERSION}  hiera-eyaml:4.3.0 hiera-eyaml-gpg openvoxserver-ca:3.0.0 \
 && apk del --purge alpine-sdk \
 && addgroup -g 1001 puppet \
 && adduser -G puppet -u 1001 -h ${data_dir}/puppetserver -H -D -s /sbin/nologin puppet \
